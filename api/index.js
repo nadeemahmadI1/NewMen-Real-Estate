@@ -21,3 +21,13 @@ app.listen(3000,() => {
 }); app.use(express.json());
 app.use("/api/user", UserRouter);
 app.use("/api/signup/", Signup);
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'internal Server Error';
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  })
+  
+})
