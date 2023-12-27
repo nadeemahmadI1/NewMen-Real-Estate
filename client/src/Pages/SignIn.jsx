@@ -1,9 +1,16 @@
-import React from 'react'
+import React from "react";
 
 function SignIn() {
   return (
     <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl text-center font-semibold my-7 font-mono">SignIn</h1>
+      <img
+        className="mx-auto h-10 w-auto mt-5"
+        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+        alt="Your Company"
+      />
+      <h2 className="mt-2 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900 my-7 font-mono">
+        Sign-In to your account
+      </h2>
       <form className="flex flex-col gap-4">
         <input
           className="border p-3 rounded-lg"
@@ -25,4 +32,4 @@ function SignIn() {
   );
 }
 
-export default SignIn
+export default SignIn;

@@ -1,9 +1,8 @@
 import express from "express";
 import colors from "colors";
 import mongoose from "mongoose";
-import UserRouter from './routes/user.router.js';
-import Signup from './routes/signup.router.js';
-
+import UserRouter from "./routes/user.router.js";
+import Signup from "./routes/signup.router.js";
 
 mongoose
   .connect(
@@ -16,18 +15,18 @@ mongoose
     console.log(err);
   });
 const app = express();
-app.listen(3000,() => {
+app.listen(3000, () => {
   console.log("Server is running to port 3000");
-}); app.use(express.json());
+});
+app.use(express.json());
 app.use("/api/user", UserRouter);
-app.use("/api/signup/", Signup);
+app.use("/api/signup", Signup);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  const message = err.message || 'internal Server Error';
+  const message = err.message || "internal Server Error";
   return res.status(statusCode).json({
     success: false,
     statusCode,
     message,
-  })
-  
-})
+  });
+});
