@@ -2,8 +2,9 @@ import express from "express";
 import colors from "colors";
 import mongoose from "mongoose";
 import UserRouter from "./routes/user.router.js";
-import Signup from "./routes/signup.router.js";
-
+import authenticationroutes from "./routes/auth.router.js";
+import  dotenv from "dotenv";
+dotenv.config();
 mongoose
   .connect(
     "mongodb+srv://nadeemahmadmalik:275618349m@cluster0.h7yahsv.mongodb.net/?retryWrites=true&w=majority"
@@ -19,8 +20,9 @@ app.listen(3000, () => {
   console.log("Server is running to port 3000");
 });
 app.use(express.json());
-app.use("/api/user", UserRouter);
-app.use("/api/signup", Signup);
+app.use("/api", authenticationroutes);
+
+
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "internal Server Error";
