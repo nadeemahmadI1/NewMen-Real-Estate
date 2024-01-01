@@ -4,7 +4,6 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const Signup = async (req, res, next) => {
-  console.log("u");
   const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newuser = new User({ username, email, password: hashedPassword });
@@ -18,10 +17,8 @@ export const Signup = async (req, res, next) => {
   }
 };
 
-
-
 export const Signin = async (req, res, next) => {
-  console.log(process.env.JWT_SECRET);
+  // console.log(process.env.JWT_SECRET);
   const { email, password } = req.body;
   try {
     const validUser = await User.findOne({ email });
@@ -42,3 +39,4 @@ export const Signin = async (req, res, next) => {
     next(error);
   }
 };
+// module.exports = { Signup, Signin };
