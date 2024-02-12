@@ -10,7 +10,7 @@ import {
 
 function Signin() {
   const [formData, setFormData] = useState({});
-  const { loading, error } = useSelector((state) => state.user);
+  const { loading, error } = useSelector((state) => state.user||{});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -34,11 +34,9 @@ function Signin() {
       const data = await res.json();
       if (data.success === false) {
         dispatch(signinFailure(data.message));
-       
       } else {
         dispatch(signinSuccess(data));
         navigate("/");
-        
       }
     } catch (error) {
       dispatch(signinFailure(error.message));
