@@ -39,6 +39,8 @@ export const Signin = async (req, res, next) => {
     next(error);
   }
 };
+
+
 // google signin and registration
 export const google = async (req, res, next) => {
   try {
@@ -50,6 +52,8 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
         .json(rest);
+      
+      
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +

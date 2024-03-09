@@ -1,7 +1,5 @@
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
-import { app } from "../FireBase";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { app } from "../FireBase"; 
 import { useDispatch } from "react-redux";
 import { signinSuccess } from "../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +13,7 @@ function OAuth() {
       const auth = getAuth(app);
 
       const result = await signInWithPopup(auth, provider);
-
+      // console.log(result);
       const res = await fetch("/api/google", {
         method: "POST",
         headers: {
