@@ -1,11 +1,10 @@
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import store from "../redux/Store";
 
 const Header = () => {
-  const state = useSelector((state) => state);
-  console.log("Current User:",state);
+  const { currentUser } = useSelector((state) => state.user);
+  console.log("Current User:", currentUser); // Corrected to log currentUser
 
   return (
     <>
@@ -13,10 +12,6 @@ const Header = () => {
         <div className="flex justify-between items-center max-w-6xl mx-auto p-3 gap-3">
           <Link to="/">
             <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-              {/* <img
-                className="background-image: none w-15 h-15 rounded-full  p-3"
-                src="public\chinar.jpeg"
-              /> */}
               <span className="text-slate-800">Vi$it</span>
               <span className="text-orange-400">Ka$hmir</span>
             </h1>
@@ -40,13 +35,13 @@ const Header = () => {
                 About
               </li>
             </Link>
-            <Link to="/sign-in">
-              {state ? (
-                <img src={state.avatar} />
+            <Link to="/profile">
+              {currentUser ? (
+                // Ensure avatar exists and display it, or show SignIn if not signed in
+                <img className="rounded-full h-7 w-7 object-cover" src={currentUser.avatar} alt="Profile Avatar" />
               ) : (
-                <li className="text-slate-800 hover:text-green-500">SignIn</li>
+              <li className="text-slate-800 hover:text-green-500">SignIn</li>
               )}
-            
             </Link>
           </ul>
         </div>
