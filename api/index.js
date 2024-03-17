@@ -3,7 +3,8 @@ import colors from "colors";
 import mongoose from "mongoose";
 import UserRouter from "./routes/user.router.js";
 import authenticationroutes from "./routes/auth.router.js";
-import  dotenv from "dotenv";
+import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 dotenv.config();
 mongoose
   .connect(
@@ -20,6 +21,11 @@ app.listen(3000, () => {
   console.log("Server is running to port 3000");
 });
 app.use(express.json());
+// parse cookies
+app.use(cookieParser())
+  
+app.use("/api", UserRouter);
+
 app.use("/api", authenticationroutes);
 
 
