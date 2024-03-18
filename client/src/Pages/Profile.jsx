@@ -1,22 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useRef } from "react";
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import { app } from "../FireBase";
-
 
 function Profile() {
   const { currentUser } = useSelector((state) => state.user);
   const fileRef = useRef(null);
-  const [file, setFile] = useState(undefined); 
+  const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
 
   // console.log(formData)
   // console.log(filePerc);
-
-
 
   useEffect(() => {
     if (file) {
@@ -74,12 +76,12 @@ function Profile() {
           alt="profile"
         />
 
-        <p className='self-center'>
+        <p className="self-center">
           {fileUploadError ? (
             <span className="text-red-500">
               Error Image Upload ! Image Must be LessThan 2 MB{" "}
             </span>
-          ) : filePerc >= 0 && filePerc < 100 ? (
+          ) : filePerc > 0 && filePerc < 100 ? (
             <span className="text-yellow-600">
               {`Uploading...${filePerc}%`}
             </span>
