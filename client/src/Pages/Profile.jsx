@@ -16,6 +16,9 @@ import {
   deleteUserFailure,
   deleteUserStart,
   deleteUserSuccess,
+  SignoutUserStart,
+  SignoutUserFailure,
+  SignoutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 
@@ -111,13 +114,27 @@ function Profile() {
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
         return;
-      }
-      else {
+      } else {
         dispatch(deleteUserSuccess(data));
         navigate("/sign-in");
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+    }
+  };
+  const handleSignOut = async () => {
+    try {
+      dispatch(SignoutUserStart());
+      const res = await fetch("/api/signout");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(SignoutUserFailure(data.message));
+        return;
+      } else {
+        dispatch(SignoutUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(SignoutUserFailure(data.message));
     }
   };
 
@@ -132,16 +149,16 @@ function Profile() {
           hidden
           accept="image/*"
         />
-       {currentUser && (
-  <img
-    className="rounded-full h-14 w-14 mt-2 object-cover self-center"
-    onClick={() => {
-      fileRef.current.click();
-    }}
-    src={formData.avatar || currentUser.avatar}
-    alt="profile"
-  />
-)}
+        {currentUser && (
+          <img
+            className="rounded-full h-14 w-14 mt-2 object-cover self-center"
+            onClick={() => {
+              fileRef.current.click();
+            }}
+            src={formData.avatar || currentUser.avatar}
+            alt="profile"
+          />
+        )}
 
         <p className="self-center">
           {fileUploadError ? (
@@ -198,7 +215,9 @@ function Profile() {
         >
           Delete Account
         </button>
-        <span className="text-red-600 cursor-pointer">Sign Out</span>
+        <span onClick={handleSignOut} className="text-red-600 cursor-pointer">
+          Sign Out
+        </span>
       </div>
       <p className="text-red-700 mt-5 font-mono self-center">
         {error ? error.message : ""}
