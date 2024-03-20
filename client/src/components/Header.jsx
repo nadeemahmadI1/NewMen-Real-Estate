@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const { currentUser } = useSelector((state) => state.user);
-  console.log("Current User:", currentUser); // Corrected to log currentUser
+  // console.log("Current User:", currentUser); // Corrected to log currentUser
 
   return (
     <>
