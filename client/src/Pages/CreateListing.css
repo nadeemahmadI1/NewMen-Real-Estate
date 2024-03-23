@@ -1,10 +1,10 @@
   @keyframes textColorChange {
-    0% { color: rgb(220, 207, 207); }
-    10% { color: yellow; }
-    25% { color: rgb(78, 124, 93); }
+    5% { color: rgb(220, 207, 207); }
+    10% { color: rgb(130, 130, 57); }
+    20% { color: rgb(21, 161, 68); }
     40% { color: green; }
-    50% { color: rgb(193, 25, 154); }
-    75% { color: blue; }
+    60% { color: rgb(193, 25, 154); }
+    80% { color: blue; }
     100% { color: red; }
   }
 
