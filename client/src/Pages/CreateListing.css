@@ -1,0 +1,18 @@
+  @keyframes textColorChange {
+    0% { color: rgb(220, 207, 207); }
+    10% { color: yellow; }
+    25% { color: rgb(78, 124, 93); }
+    40% { color: green; }
+    50% { color: rgb(193, 25, 154); }
+    75% { color: blue; }
+    100% { color: red; }
+  }
+
+  .animated-text-button {
+    padding: 15px;
+    font-family: 'Times New Roman', Times, serif;
+    text-transform: uppercase;
+    border-radius: 12px;
+    color: white; /* Initial color */
+    animation: textColorChange 5s infinite;
+  }

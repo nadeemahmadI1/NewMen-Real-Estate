@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import {
   getDownloadURL,
@@ -200,11 +200,17 @@ function Profile() {
         <button
           type="submit"
           disabled={loading}
-          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-60"
+          className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-75 disabled:opacity-75"
           // onSubmit={handleSubmit}
         >
-          {loading ? "Loading..." : "Update"}
+          {loading ? "Loading..." : <span className="font-bold">Update</span>}
         </button>
+        <Link
+          to={"/create-listing"}
+          className="bg-orange-500 p-3 rounded-lg text-center text-white uppercase font-bold hover:opacity-75"
+        >
+          Create Listing
+        </Link>
       </form>
 
       <div className="flex justify-between mt-8">
