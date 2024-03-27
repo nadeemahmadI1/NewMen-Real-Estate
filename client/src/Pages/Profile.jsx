@@ -21,6 +21,7 @@ import {
   SignoutUserSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import Listing from "../../../api/models/listing.model";
 
 function Profile() {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -30,6 +31,8 @@ function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, SetUpdateSuccess] = useState(false);
+  const [showListingError, setShowListingError] = useState(false);
+  const [userListings, setUserListings] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -122,6 +125,7 @@ function Profile() {
       dispatch(deleteUserFailure(error.message));
     }
   };
+
   const handleSignOut = async () => {
     try {
       dispatch(SignoutUserStart());
@@ -138,6 +142,24 @@ function Profile() {
     }
   };
 
+  const handleShowListings = async () => {
+    // console.log('showlist');
+    try {
+      setShowListingError(false);
+      const res = await fetch(`/api/listings/${currentUser._id}`);
+      
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingError(true);
+        return;
+      }
+      setUserListings(data);
+
+   } catch (error) {
+      setShowListingError(true);
+   }
+  }
+  
   return (
     <div className="flex flex-col justify-center max-w-lg mx-auto p-3">
       <h1 className="text-center text-3xl mt-10 font-mono">Profile</h1>
@@ -231,6 +253,49 @@ function Profile() {
       <p className="text-green-700 mt-5 font-mono self-center ">
         {updateSuccess ? "Updated SucessFully" : ""}
       </p>
+      <button type="button" onClick={handleShowListings} className="text-white p-3 rounded-lg font-bold bg-amber-950 hover:opacity-90">
+        SHOW LISTING
+      </button>
+      <p className="text-red-700 mt-5">{showListingError ? 'Error in Show Listing' : ""}</p>
+
+      {userListings && userListings.length > 0 &&
+        <div className="flex flex-col  gap-4">
+          <h1 className="text-indigo-300 my-5 font-mono text-3xl text-center uppercase">Your Listing</h1>
+       { userListings.map((listing) => {
+          return (
+          <div
+            key={listing._id}
+            className="border shadow-md rounded-lg  mt-3 flex  justify-between p-3 items-center hover:translate-x-1 gap-3"
+          >
+            <Link to={`listing/${listing._id}`}>
+              <img
+                src={listing.imageUrls[0]}
+                alt="listing Cover"
+                className="h-16 w-16 object-cover rounded shadow-md"
+              />
+            </Link>
+            <Link
+              className="flex-1 text-slate-700 font-bold hover:underline truncate"
+              to={`listing/${listing._id}`}
+            >
+              <p>{listing.name}</p>
+            </Link>
+            <div className="flex flex-col">
+              <button type="button" className="text-red-600 hover:opacity-70">
+                Delete
+              </button>
+              <button
+                type="button"
+                className="text-pink-600 font-bold hover:opacity-70"
+              >
+                EDIT
+              </button>
+            </div>
+          </div>
+          );
+        })}
+        </div>
+      }
     </div>
   );
 }
