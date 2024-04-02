@@ -92,7 +92,7 @@ function Profile() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       if (data.success === false) {
         dispatch(userUpdateFailure(data.message));
       } else {
@@ -316,12 +316,14 @@ function Profile() {
                   >
                     Delete
                   </button>
+                  <Link to={`/update-listing/${listing._id}`}>
                   <button
                     type="button"
                     className="text-pink-600 font-bold hover:opacity-70"
                   >
                     EDIT
                   </button>
+                  </Link>
                 </div>
               </div>
             );

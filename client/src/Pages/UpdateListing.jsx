@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { app } from "../firebase";
 import {
   getDownloadURL,
@@ -8,12 +8,13 @@ import {
 } from "firebase/storage";
 import "./CreateListing.css";
 import { useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useParams } from "react-router-dom";
 
 const CreateListing = () => {
   const [files, setFiles] = useState([]);
   const { currentUser } = useSelector((state) => state.user);
-  const  navigate = useNavigate();
+  const navigate = useNavigate();
+  const params = useParams();
   const [formData, setFormData] = useState({
     imageUrls: [],
     name: "",
@@ -34,6 +35,25 @@ const CreateListing = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const fetchListing = async () => {
+      const listingId = params.listingId;
+      const res = await fetch(`/api/get/${listingId}`);
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+      setFormData(data);
+       
+      
+    }
+    fetchListing();
+     
+   },[])
+
+
+
   // Handles file input change and
   const handleImageSubmit = (e) => {
     if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
@@ -51,7 +71,6 @@ const CreateListing = () => {
           });
           setImageUploadError(false);
           setUploading(false);
-
         })
         .catch((err) => {
           setImageUploadError("Image Upload Failed (2 mb Per image)");
@@ -89,11 +108,9 @@ const CreateListing = () => {
   const handleRemoveImg = (index) => {
     setFormData({
       ...formData,
-      imageUrls: formData.imageUrls.filter((_, i) => i !== index
-      )
-    })
-    
-  }
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+    });
+  };
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
       setFormData({
@@ -126,40 +143,39 @@ const CreateListing = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formData.imageUrls.length < 1) return setError('You Must Choose AtLeast One Image');
+      if (formData.imageUrls.length < 1)
+        return setError("You Must Choose AtLeast One Image");
       if (+formData.regularPrice < +formData.discountPrice)
         return setError("Discount Price must  be less than Regular Price");
-        
-      
+
       setLoading(true);
       setError(false);
-      const res = await fetch('/api/create', {
+      const res = await fetch(`/api/updatelisting/${params.listingId}`, {
         method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
-          userRef : currentUser._id,
+          userRef: currentUser._id,
         }),
       });
-      const data = await res.json()
-      setLoading(false)
+      const data = await res.json();
+      setLoading(false);
       if (data.success === false) {
         setError(data.message);
       }
       navigate(`/listing/${data._id}`);
-
     } catch (error) {
-      setError(error.message)
+      setError(error.message);
       setLoading(false);
     }
-  }
+  };
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
         <span className="text-orange-400 font-mono animated-text-button ">
-          Create Listing
+          Update Listing
         </span>
       </h1>
       <form className="flex flex-col sm:flex-row gap-4" onSubmit={handleSubmit}>
@@ -364,11 +380,11 @@ const CreateListing = () => {
             ))}
           {/* </div> */}
           <button
-            disabled={loading ||uploading}
+            disabled={loading || uploading}
             type="submit"
             className="p-3 bg-purple-500 font-bold text-white uppercase rounded-lg hover:opacity-80"
           >
-            {loading ? "Creating..." : "Create listing"}
+            {loading ? "Creating..." : "Update listing"}
           </button>
           {error && <p className="text-red-700 text-sm">{error}</p>}
         </div>

@@ -26,3 +26,38 @@ export const deleteListing = async (req, res, next) => {
     next(error);
   }
 };
+
+export const updateListing = async (req, res, next) => {
+  const listing = await Listing.findById(req.params.id);
+  if (!listing) {
+    return next(errorHandler(401, "Listing Not found"));
+  }
+  if (req.user.id !== listing.userRef) {
+    return next(
+      errorHandler(402, " You are not authorized to perform this action")
+    );
+  }
+  try {
+    const updatelisting = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatelisting);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getListing = async(req,res,next) => {
+  try {
+    const listing = await Listing.findById(req.params.id);
+    if (!listing) {
+      return next(errorHandler(404,'No such listing exists'));
+    }
+    res.status(200, 'OK').json(listing);
+    
+  } catch (error) {
+    next(error);
+  }
+}
