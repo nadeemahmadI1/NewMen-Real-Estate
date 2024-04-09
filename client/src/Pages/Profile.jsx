@@ -295,7 +295,7 @@ function Profile() {
                 key={listing._id}
                 className="border shadow-md rounded-lg  mt-3 flex  justify-between p-3 items-center hover:translate-x-1 gap-3"
               >
-                <Link to={`listing/${listing._id}`}>
+                <Link to={`/listing/${listing._id}`}>
                   <img
                     src={listing.imageUrls[0]}
                     alt="listing Cover"
@@ -304,7 +304,7 @@ function Profile() {
                 </Link>
                 <Link
                   className="flex-1 text-slate-700 font-bold hover:underline truncate"
-                  to={`listing/${listing._id}`}
+                  to={`/listing/${listing._id}`}
                 >
                   <p>{listing.name}</p>
                 </Link>
@@ -317,12 +317,12 @@ function Profile() {
                     Delete
                   </button>
                   <Link to={`/update-listing/${listing._id}`}>
-                  <button
-                    type="button"
-                    className="text-pink-600 font-bold hover:opacity-70"
-                  >
-                    EDIT
-                  </button>
+                    <button
+                      type="button"
+                      className="text-pink-600 font-bold hover:opacity-70"
+                    >
+                      EDIT
+                    </button>
                   </Link>
                 </div>
               </div>
