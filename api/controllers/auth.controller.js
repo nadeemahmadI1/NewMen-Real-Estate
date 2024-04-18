@@ -6,7 +6,7 @@ export const Signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   const newuser = new User({ username, email, password: hashedPassword });
-    // console.log(newuser);
+  // console.log(newuser);
   try {
     await newuser.save();
     res.status(201).json("User created Successfully");
@@ -40,7 +40,6 @@ export const Signin = async (req, res, next) => {
   }
 };
 
-
 // google signin and registration
 export const google = async (req, res, next) => {
   try {
@@ -52,8 +51,6 @@ export const google = async (req, res, next) => {
         .cookie("access_token", token, { httpOnly: true })
         .status(200)
         .json(rest);
-      
-      
     } else {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
@@ -81,12 +78,12 @@ export const google = async (req, res, next) => {
 };
 
 // signout the functionality
-export const Signout = async (req, res, next) => {
+export const signout = async (req, res, next) => {
   try {
-    res.clearCookie('access_token');
-    res.status(200).json('User has been Logged Out')
+    res.clearCookie("access_token");
+    res.status(200).json("User has been Logged Out");
   } catch (error) {
     next(error);
   }
-  
-}
+};
+// Search functionality

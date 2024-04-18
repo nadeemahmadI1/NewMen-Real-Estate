@@ -29,7 +29,7 @@ app.use(cookieParser())
 
 app.use("/api", UserRouter);
 app.use("/api", authenticationroutes);
-app.use("/api", listingRouter);
+app.use("/api/listing", listingRouter);
 
 
 app.use((err, req, res, next) => {
